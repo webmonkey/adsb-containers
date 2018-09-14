@@ -1,0 +1,39 @@
+version: '3'
+services:
+    decoder:
+        image: webmonkey/dump1090
+        devices:
+            - "/dev/bus/usb:/dev/bus/usb"
+        networks:
+            - adsb
+    frontend:
+        image: webmonkey/dump1090-frontend 
+        ports:
+            - 8080:80
+        networks:
+            - adsb
+    fr24feed:
+        image: webmonkey/fr24feed
+        volumes:
+            - fr24_config:/etc/fr24config
+        ports:
+            - 8754:8754
+        networks:
+            - adsb
+    adsbexchange:
+        image: webmonkey/adsbexchange
+        networks:
+            - adsb
+    flightaware:
+        image: webmonkey/piaware
+        volumes:
+              - fa_cache:/var/cache/piaware
+        networks:
+            - adsb
+
+networks:
+    adsb:
+
+volumes:
+    fa_cache:
+    fr24_config:
