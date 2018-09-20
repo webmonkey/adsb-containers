@@ -15,7 +15,7 @@ services:
     fr24feed:
         image: webmonkey/fr24feed
         volumes:
-            - fr24_config:/etc/fr24config
+            - fr24_config:/etc/fr24feed
         ports:
             - 8754:8754
         networks:
