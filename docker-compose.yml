@@ -27,7 +27,15 @@ services:
     flightaware:
         image: webmonkey/piaware
         volumes:
-              - fa_cache:/var/cache/piaware
+            - fa_cache:/var/cache/piaware
+        networks:
+            - adsb
+    planefinder:
+        image: webmonkey/planefinder
+        volumes:
+            - pfclient_config:/etc/pfclient
+        ports:
+            - 30053:30053
         networks:
             - adsb
 
@@ -37,3 +45,4 @@ networks:
 volumes:
     fa_cache:
     fr24_config:
+    pfclient_config:
