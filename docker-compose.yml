@@ -2,42 +2,53 @@ version: '3'
 services:
     decoder:
         image: webmonkey/dump1090
+        command: dump1090 --net --quiet --no-fix
         devices:
             - "/dev/bus/usb:/dev/bus/usb"
         networks:
             - adsb
     frontend:
         image: webmonkey/dump1090-frontend 
+        depends_on:
+            - decoder
         ports:
             - 8080:80
         networks:
             - adsb
     fr24feed:
         image: webmonkey/fr24feed
+        depends_on:
+            - decoder
         volumes:
             - fr24_config:/etc/fr24feed
-        ports:
-            - 8754:8754
         networks:
             - adsb
+        ports:
+            - 8754:8754
     adsbexchange:
         image: webmonkey/adsbexchange
+        depends_on:
+            - decoder
         networks:
             - adsb
     flightaware:
         image: webmonkey/piaware
+        depends_on:
+            - decoder
         volumes:
             - fa_cache:/var/cache/piaware
         networks:
             - adsb
     planefinder:
         image: webmonkey/planefinder
+        depends_on:
+            - decoder
         volumes:
             - pfclient_config:/etc/pfclient
-        ports:
-            - 30053:30053
         networks:
             - adsb
+        ports:
+            - 30053:30053
 
 networks:
     adsb:
