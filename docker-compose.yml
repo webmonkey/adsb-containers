@@ -29,12 +29,23 @@ services:
             - 8754:8754
         restart: always
     adsbexchange:
-        image: webmonkey/adsbexchange
+        image: ghcr.io/sdr-enthusiasts/docker-adsbexchange:latest
         depends_on:
             - decoder
         networks:
             - adsb
         restart: always
+        tty: true
+        environment:
+            - BEASTHOST=decoder
+            - TZ=Europe/London
+            - LAT=51.27931344
+            - LONG=-0.09005249
+            - ALT=203m
+            - SITENAME=The_Nest
+            - UUID=72ba73a2-17e5-413d-b2af-b648e7d6e531
+        tmpfs:
+            - /run:rw,nosuid,nodev,exec,relatime,size=64M,uid=1000,gid=1000
     flightaware:
         image: webmonkey/piaware
         depends_on:
