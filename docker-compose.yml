@@ -16,6 +16,7 @@ services:
             - 8080:80
         networks:
             - adsb
+        restart: always
     fr24feed:
         image: webmonkey/fr24feed
         depends_on:
@@ -26,12 +27,14 @@ services:
             - adsb
         ports:
             - 8754:8754
+        restart: always
     adsbexchange:
         image: webmonkey/adsbexchange
         depends_on:
             - decoder
         networks:
             - adsb
+        restart: always
     flightaware:
         image: webmonkey/piaware
         depends_on:
@@ -40,6 +43,7 @@ services:
             - fa_cache:/var/cache/piaware
         networks:
             - adsb
+        restart: always
     planefinder:
         image: webmonkey/planefinder
         depends_on:
@@ -50,6 +54,7 @@ services:
             - adsb
         ports:
             - 30053:30053
+        restart: always
 
 networks:
     adsb:
